@@ -20,7 +20,7 @@ resource "aws_autoscaling_group" "web_server_asg" {
     version = "$Latest"
   }
 
-  target_group_arns = [aws_lb_target_group.app_target_group.arn]
+  target_group_arns = [data.aws_lb_target_group.app_target_group.arn]
 
   health_check_type          = "EC2"
   health_check_grace_period = 300
