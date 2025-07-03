@@ -19,11 +19,11 @@ resource "tls_self_signed_cert" "ssl_cert" {
 }
 
 
-# Create a Key Pair
-resource "aws_key_pair" "web_server_key" {
-  key_name   = "web-key"  # Name of the key pair
-  public_key = file("SSL/certificate/id_rsa.pub")  # Path to your public key file
+# Referencing the existing key pair
+data "aws_key_pair" "web_server_key" {
+  name   = "web-key"  # Name of the key pair
 }
+
 
 # Define the EC2 instance for the web server
 resource "aws_instance" "web_server" {
