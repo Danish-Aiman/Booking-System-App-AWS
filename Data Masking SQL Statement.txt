@@ -1,0 +1,28 @@
+Data Masking SQL Statement
+DELIMITER $$
+
+CREATE FUNCTION MaskSensitiveData(input VARCHAR(20))
+RETURNS VARCHAR(20)
+DETERMINISTIC
+BEGIN
+    DECLARE len INT;
+    SET len = CHAR_LENGTH(input);
+    IF len <= 4 THEN
+        RETURN input; -- If length <= 4, return as is
+    END IF;
+    RETURN CONCAT(REPEAT('*', len - 4), RIGHT(input, 4));
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER trg_MaskSensitiveData_OnInsert
+BEFORE INSERT ON appointments
+FOR EACH ROW
+BEGIN
+    SET NEW.ic_number = MaskSensitiveData(NEW.ic_number);
+    SET NEW.credit_card_number = MaskSensitiveData(NEW.credit_card_number);
+END$$
+
+DELIMITER ;
