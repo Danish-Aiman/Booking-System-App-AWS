@@ -75,5 +75,5 @@ output "web_server_public_ip" {
 }
 
 output "key_pair_name" {
-  value = aws_key_pair.web_server_key.key_name
+  value = data.aws_key_pair.web_server_key.key_name
 }
