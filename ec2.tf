@@ -36,8 +36,6 @@ resource "aws_instance" "web_server" {
 
   associate_public_ip_address = true  # Ensure public IP assignment for the EC2 instance
 
-  key_name = aws_key_pair.web_server_key.key_name  # Referencing the key pair created above
-
   tags = {
     Name = "WebServer"
   }
