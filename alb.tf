@@ -14,20 +14,6 @@ data "aws_lb" "app_alb" {
   name = "app-alb"  # Replace with the name of your existing ALB
 }
 
-# Create an Application Load Balancer (ALB)
-resource "aws_lb" "app_alb" {
-  name               = "app-alb"
-  internal           = false  # Set to false for internet-facing ALB
-  load_balancer_type = "application"
-  security_groups    = [data.aws_security_group.alb_sg.id]  # Use the existing security group
-  subnets            = [aws_subnet.main_subnet.id, aws_subnet.second_subnet.id]  # Specify two subnets in different AZs
-  enable_deletion_protection = false
-
-  tags = {
-    Name = "App-ALB"
-  }
-}
-
 # Create a listener for the Load Balancer (HTTP)
 resource "aws_lb_listener" "http_listener" {
   load_balancer_arn = data.aws_lb.app_alb.arn
