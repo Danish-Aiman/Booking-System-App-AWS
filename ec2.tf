@@ -21,7 +21,7 @@ resource "tls_self_signed_cert" "ssl_cert" {
 
 # Referencing the existing key pair
 data "aws_key_pair" "web_server_key" {
-  name   = "web-key"  # Name of the key pair
+  key_name   = "web-key"  # Name of the key pair
 }
 
 
