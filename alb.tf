@@ -15,7 +15,7 @@ resource "aws_lb" "app_alb" {
   internal           = false  # Set to false for internet-facing ALB
   load_balancer_type = "application"
   security_groups    = [data.aws_security_group.alb_sg.id]  # Use the existing security group
-  subnets            = [aws_subnet.main_subnet.id, aws_subnet.secondary_subnet.id]  # Specify two subnets in different AZs
+  subnets            = [aws_subnet.main_subnet.id, aws_subnet.second_subnet.id]  # Specify two subnets in different AZs
   enable_deletion_protection = false
 
   tags = {
