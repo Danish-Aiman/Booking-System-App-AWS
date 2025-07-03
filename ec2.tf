@@ -22,7 +22,6 @@ resource "tls_self_signed_cert" "ssl_cert" {
 # Create a Key Pair
 resource "aws_key_pair" "web_server_key" {
   key_name   = "web-linux"  # Name of the key pair
-  public_key = file("SSL/certificate/id_rsa.pub")  # Path to your public key file
 }
 
 # Define the EC2 instance for the web server
@@ -57,10 +56,6 @@ resource "aws_instance" "web_server" {
 
               # Create SSL directory
               sudo mkdir -p /etc/ssl/certs /etc/ssl/private
-
-              # Copy the generated SSL certificate and key from Terraform to the EC2 instance
-              echo '${tls_self_signed_cert.ssl_cert.cert_pem}' > /etc/ssl/certs/server.crt
-              echo '${tls_private_key.example_key.private_key_pem}' > /etc/ssl/private/server.key
 
               # Create ssl.conf file on Apache
               sudo touch /etc/httpd/conf.d/ssl.conf
