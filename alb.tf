@@ -1,29 +1,7 @@
-# Create a security group for the Load Balancer
-resource "aws_security_group" "alb_sg" {
-  name        = "alb-security-group"
-  description = "Allow HTTP and HTTPS traffic to the load balancer"
-  vpc_id      = aws_vpc.main_vpc.id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Allow HTTP traffic from anywhere
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Allow HTTPS traffic from anywhere
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]  # Allow all outbound traffic
-  }
+# Reference the existing security group
+data "aws_security_group" "alb_sg" {
+  name   = "alb-security-group"  # The name of your existing security group
+  vpc_id = aws_vpc.main_vpc.id   # The VPC where the security group exists
 }
 
 # Create an Application Load Balancer (ALB)
