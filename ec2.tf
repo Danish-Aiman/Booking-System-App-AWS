@@ -83,26 +83,3 @@ output "web_server_public_ip" {
 output "key_pair_name" {
   value = aws_key_pair.web_server_key.key_name
 }
-
-# Define the IAM policy allowing ec2:RunInstances
-resource "aws_iam_policy" "ec2_run_instances_policy" {
-  name        = "AllowEC2RunInstances"
-  description = "Policy to allow ec2:RunInstances action"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect   = "Allow"
-        Action   = "ec2:RunInstances"
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-# Attach the policy to the existing IAM user
-resource "aws_iam_user_policy_attachment" "terraform_user_policy_attachment" {
-  user       = "terraform"  # Specify the IAM user name
-  policy_arn = aws_iam_policy.ec2_run_instances_policy.arn
-}
