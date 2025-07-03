@@ -9,6 +9,11 @@ data "aws_lb_target_group" "app_target_group" {
   name = "app-target-group"  # Replace with your existing target group name
 }
 
+# Reference the existing ALB
+data "aws_lb" "app_alb" {
+  name = "app-alb"  # Replace with the name of your existing ALB
+}
+
 # Create an Application Load Balancer (ALB)
 resource "aws_lb" "app_alb" {
   name               = "app-alb"
@@ -25,7 +30,7 @@ resource "aws_lb" "app_alb" {
 
 # Create a listener for the Load Balancer (HTTP)
 resource "aws_lb_listener" "http_listener" {
-  load_balancer_arn = aws_lb.app_alb.arn
+  load_balancer_arn = data.aws_lb.app_alb.arn
   port              = "80"
   protocol          = "HTTP"
 
