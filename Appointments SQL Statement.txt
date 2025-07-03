@@ -1,0 +1,11 @@
+Appointments SQL Statement
+CREATE TABLE appointments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    ic_number VARCHAR(20) NOT NULL,
+    date DATE NOT NULL,
+    time TIME NOT NULL,
+    credit_card_number VARCHAR(20) NOT NULL,
+    CONSTRAINT FK_appointments_users FOREIGN KEY (user_id) REFERENCES users(id)
+);
