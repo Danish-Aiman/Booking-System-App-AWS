@@ -4,9 +4,9 @@ data "aws_security_group" "alb_sg" {
   vpc_id = aws_vpc.main_vpc.id   # The VPC where the security group exists
 }
 
-# Reference the existing ALB
-data "aws_lb" "app_alb" {
-  name = "app-alb"  # Replace with the name of your existing ALB
+# Reference the existing ALB target group
+data "aws_lb_target_group" "app_target_group" {
+  name = "app-target-group"  # Replace with your existing target group name
 }
 
 # Create an Application Load Balancer (ALB)
@@ -14,7 +14,7 @@ resource "aws_lb" "app_alb" {
   name               = "app-alb"
   internal           = false  # Set to false for internet-facing ALB
   load_balancer_type = "application"
-  security_groups    = [data.aws_security_group.existing_alb_sg.id]  # Use the existing security group
+  security_groups    = [data.aws_security_group.alb_sg.id]  # Use the existing security group
   subnets            = [aws_subnet.main_subnet.id, aws_subnet.secondary_subnet.id]  # Specify two subnets in different AZs
   enable_deletion_protection = false
 
