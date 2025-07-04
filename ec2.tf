@@ -25,7 +25,7 @@ data "aws_key_pair" "web_key" {
 }
 
 resource "aws_key_pair" "web_server_key" {
-  key_name   = [data.aws_key_pair.web_key.key_name]  # Name of the key pair
+  key_name   = data.aws_key_pair.web_key.key_name  # Name of the key pair
 public_key = file(".ssh/id_ed25519.pub")
 }
 
