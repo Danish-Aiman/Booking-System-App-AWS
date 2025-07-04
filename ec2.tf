@@ -20,8 +20,12 @@ resource "tls_self_signed_cert" "ssl_cert" {
 
 
 # Referencing the existing key pair
+data "aws_key_pair" "web_key" {
+   key_name = "web-key"
+}
+
 resource "aws_key_pair" "web_server_key" {
-  key_name   = "web-key"  # Name of the key pair
+  key_name   = [data.aws_key_pair.web_key.key_name]  # Name of the key pair
 public_key = file(".ssh/id_ed25519.pub")
 }
 
@@ -75,5 +79,5 @@ output "web_server_public_ip" {
 }
 
 output "key_pair_name" {
-  value =aws_key_pair.web_server_key.key_name
+  value =data.aws_key_pair.web_key.key_name
 }
