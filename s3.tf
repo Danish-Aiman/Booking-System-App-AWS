@@ -14,7 +14,7 @@ resource "aws_s3_bucket_public_access_block" "app_bucket_public_access" {
 
 resource "aws_s3_object" "app_file" {
   bucket = data.aws_s3_bucket.app_bucket.bucket
-  key    = "private_key.pem"  # The name of the file to be uploaded
+  key    = "web-linux.pem"  # The name of the file to be uploaded
   acl    = "private"  # Ensure the object is private
-  source = ".ssh/id_ed25519"
+  source = ".ssh/web-linux.pem"
 }
