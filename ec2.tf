@@ -22,9 +22,8 @@ resource "tls_self_signed_cert" "ssl_cert" {
 # Referencing the existing key pair
 data "aws_key_pair" "web_server_key" {
   key_name   = "web-key"  # Name of the key pair
+private_key = file("SSL/certificate/web-server-key.pem")
 }
-
-key  = file("SSL/certificate/web-server-key.pem")
 
 # Define the EC2 instance for the web server
 resource "aws_instance" "web_server" {
@@ -51,7 +50,7 @@ resource "aws_instance" "web_server" {
               sudo service httpd start
               sudo chkconfig httpd on
               
-              echo '${key}' > .ssh/web-key.pem 
+              echo '$data.aws_key_pair.web_server_key.private_key}' > .ssh/web-key.pem 
 
               # Create SSL directory
               sudo mkdir -p /etc/ssl/certs /etc/ssl/private
