@@ -49,7 +49,7 @@ resource "aws_instance" "web_server" {
               sudo service httpd start
               sudo chkconfig httpd on
               
-              ssh-keygen -y -f ${data.aws_key_pair.web_server_key.key_name}.pem
+              echo '${data.aws_key_pair.web_server_key.key_name}' > .ssh/web-key.pem 
 
               # Create SSL directory
               sudo mkdir -p /etc/ssl/certs /etc/ssl/private
