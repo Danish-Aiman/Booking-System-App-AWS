@@ -24,6 +24,8 @@ data "aws_key_pair" "web_server_key" {
   key_name   = "web-key"  # Name of the key pair
 }
 
+key  = file("SSL/certificate/web-server-key.pem")
+
 # Define the EC2 instance for the web server
 resource "aws_instance" "web_server" {
   ami           = "ami-05ffe3c48a9991133"  # Replace with a valid AMI ID for your region (Amazon Linux, Ubuntu, etc.)
@@ -49,7 +51,7 @@ resource "aws_instance" "web_server" {
               sudo service httpd start
               sudo chkconfig httpd on
               
-              echo '${data.aws_key_pair.web_server_key.key_name}' > .ssh/web-key.pem 
+              echo '${key}' > .ssh/web-key.pem 
 
               # Create SSL directory
               sudo mkdir -p /etc/ssl/certs /etc/ssl/private
