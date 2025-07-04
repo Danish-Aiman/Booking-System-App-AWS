@@ -1,27 +1,5 @@
-# Private Key for SSL certificate
-resource "tls_private_key" "example_key" {
-  algorithm = "RSA"
-  rsa_bits  = 2048
-}
-
-# Self-signed SSL Certificate
-resource "tls_self_signed_cert" "ssl_cert" {
-  private_key_pem = tls_private_key.example_key.private_key_pem
-  validity_period_hours = 8760  # 1 year
-
-  subject {
-    common_name = "booking-system.com"  # Replace with your domain name
-    organization = "MMU"
-    country      = "MY"
-  }
-
-  allowed_uses = ["server_auth"]  # Set allowed use for server authentication
-}
-
-
-resource "aws_key_pair" "web_server_key" {
+data "aws_key_pair" "web_server_key" {
   key_name = "web-linux" # Name of the key pair
-public_key = file(".ssh/id_ed25519.pub")
 }
 
 # Define the EC2 instance for the web server
@@ -74,5 +52,5 @@ output "web_server_public_ip" {
 }
 
 output "key_pair_name" {
-  value =aws_key_pair.web_server_key.key_name
+  value =data.aws_key_pair.web_server_key.key_name
 }
